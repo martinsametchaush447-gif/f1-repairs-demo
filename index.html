@@ -60,12 +60,12 @@ main, footer { position: relative; z-index: 1; background: var(--ink); }
 .services, .contact { background: var(--paper); color: var(--ink); }
 .services p, .contact p, address { color: #52616c; }
 .services h2, .contact h2 { font-size: clamp(38px, 4.6vw, 64px); }
-.service-list { list-style: none; padding: 0; margin: 40px 0 8px; display: grid; grid-template-columns: 1fr 1fr; gap: 0 64px; }
-.service-list li { padding: 12px 0; font-size: 20px; }
-.service-photos { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin-block: 40px 16px; }
-.service-photos figure { margin: 0; }
-.service-photos img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; }
-.service-photos figcaption { margin-top: 12px; font-size: 17px; font-weight: 800; }
+.service-tiles { list-style: none; padding: 0; margin: 32px 0 8px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.service-tiles li { background: #fff; }
+.service-tiles img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+.service-tiles li > div { padding: 20px; }
+.service-tiles h3 { margin: 0; font-size: 22px; line-height: 1.25; font-weight: 800; }
+.service-tiles p { margin-top: 8px; font-size: 16px; line-height: 1.5; }
 .contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 64px; }
 address { font-style: normal; font-size: 17px; line-height: 1.65; margin-top: 24px; }
 .directions { display: inline-flex; gap: 16px; align-items: center; min-height: 48px; margin-top: 16px; }
@@ -82,9 +82,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid #fff; outline-offset:
   p { font-size: 16px; }
   .symptom, .contact { grid-template-columns: minmax(0, 1fr); gap: 32px; }
   .clip { max-width: 440px; justify-self: center; }
-  .service-list { grid-template-columns: minmax(0, 1fr); margin-top: 32px; }
-  .service-list li { font-size: 18px; padding-block: 18px; }
-  .service-photos { grid-template-columns: minmax(0, 1fr); }
+  .service-tiles { grid-template-columns: minmax(0, 1fr); }
   .call-button { padding-inline: 14px; font-size: 15px; }
   .contact-call p { margin-top: 0; }
   footer > span { width: 100%; margin: 0; }
@@ -148,15 +146,16 @@ a:focus-visible, button:focus-visible { outline: 3px solid #fff; outline-offset:
     </section>
     <section class="services content-section" id="services" aria-labelledby="services-title">
       <h2 id="services-title">Under the bonnet.<br>And beyond.</h2><p>Repairs, servicing and the things that don’t feel right.</p>
-      <ul class="service-list">
-        <li>MOT tests</li><li>Diagnostics</li><li>DPF cleaning and repair</li><li>Clutches and gearboxes</li><li>Brakes</li><li>Servicing and repairs</li><li>Remapping</li><li>Breakdown recovery</li>
+      <ul class="service-tiles">
+        <li><img src="./Car-Servicing-Worcester.jpg" width="1000" height="667" loading="lazy" alt="Mechanic working on an engine"><div><h3>Servicing and repairs</h3><p>Routine servicing and mechanical repairs.</p></div></li>
+        <li><img src="./F1-CAR-DIAGNOSTICS.jpg" width="1000" height="667" loading="lazy" alt="Vehicle diagnostic equipment"><div><h3>Diagnostics</h3><p>Computer checks to help identify faults.</p></div></li>
+        <li><img src="./F1-MOT-TEST.jpg" width="1000" height="665" loading="lazy" alt="Vehicle underside in the workshop"><div><h3>MOT tests</h3><p>Class 4 MOT testing in Worcester.</p></div></li>
+        <li><img src="./F1-CAR-REMAPPING.jpg" width="1000" height="667" loading="lazy" alt="Engine software on a workshop laptop"><div><h3>Remapping</h3><p>ECU software tailored to your engine.</p></div></li>
+        <li><img src="./car.jpg" width="1280" height="720" loading="lazy" alt="Car with exhaust smoke in the workshop"><div><h3>DPF cleaning and repair</h3><p>Diesel particulate filter cleaning and repair.</p></div></li>
+        <li><img src="./gearbox.jpg" width="1280" height="720" loading="lazy" alt="Gearbox in the workshop"><div><h3>Clutches and gearboxes</h3><p>Help with clutch and gearbox problems.</p></div></li>
+        <li><img src="./F1-MOT-TEST.jpg" width="1000" height="665" loading="lazy" alt="Running gear beneath a vehicle"><div><h3>Brakes</h3><p>Brake repairs and replacement.</p></div></li>
+        <li><img src="./recovery.jpg" width="1280" height="720" loading="lazy" alt="Car recovery to the garage"><div><h3>Breakdown recovery</h3><p>Local recovery from roadside to workshop.</p></div></li>
       </ul>
-      <div class="service-photos">
-        <figure><img src="./Car-Servicing-Worcester.jpg" width="1000" height="667" loading="lazy" alt="Car servicing at F1 Repairs"><figcaption>Servicing and repairs</figcaption></figure>
-        <figure><img src="./F1-CAR-DIAGNOSTICS.jpg" width="1000" height="667" loading="lazy" alt="Vehicle diagnostics at F1 Repairs"><figcaption>Diagnostics</figcaption></figure>
-        <figure><img src="./F1-CAR-REMAPPING.jpg" width="1000" height="667" loading="lazy" alt="Remapping at F1 Repairs"><figcaption>Remapping</figcaption></figure>
-        <figure><img src="./F1-MOT-TEST.jpg" width="1000" height="667" loading="lazy" alt="MOT testing at F1 Repairs"><figcaption>MOT tests</figcaption></figure>
-      </div>
       <a class="call-button" href="tel:+441905852342">Call 01905 852342 to Book</a>
     </section>
     <section class="contact content-section" id="contact" aria-labelledby="contact-title">
