@@ -84,6 +84,7 @@ a[href^="tel:"]{white-space:nowrap}
 .story-visual video{opacity:0}.story-visual video.has-frame{opacity:1}
 .fallback #engine-scene{position:relative;inset:auto;width:min(100%,500px);height:220px;margin-top:24px}
 .fallback .stage-tools{top:22px;right:24px;left:auto;bottom:auto}.fallback .stage-tools button{display:flex}
+.site-header{position:fixed;top:0;left:0;right:0;z-index:40;transition:opacity .25s ease}body.past-hero .site-header{opacity:0}body.past-hero .site-header .brand{pointer-events:none}
 </style>
   <noscript><style>.fallback .stage-tools button{display:none}</style></noscript>
 </head>
@@ -461,6 +462,7 @@ a[href^="tel:"]{white-space:nowrap}
     document.body.dataset.renderer = 'video';
     syncScroll();
   }
+  new IntersectionObserver(([entry]) => document.body.classList.toggle('past-hero', !entry.isIntersecting), {threshold: 0.02}).observe(document.getElementById('top'));
 })();
 </script>
 </body>
