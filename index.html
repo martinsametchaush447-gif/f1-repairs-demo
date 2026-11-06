@@ -28,12 +28,15 @@ h1, h2 { font-size: clamp(42px, 5.6vw, 80px); line-height: 1.08; }
 p { font-size: 18px; line-height: 1.6; color: var(--muted); }
 .hero, .content-section, footer { padding-inline: max(24px, calc((100% - 1240px) / 2)); }
 .hero { position: sticky; top: 0; height: 100svh; isolation: isolate; background: #050607; }
-.hero-poster, .hero-video, .hero::after { position: absolute; inset: 0; width: 100%; height: 100%; }
-.hero-poster, .hero-video { z-index: -2; }
-.hero-poster img, .hero-video { display: block; width: 100%; height: 100%; object-fit: cover; }
-.hero-video { opacity: 0; }
-.hero-video.has-frame { opacity: 1; }
-.hero::after { content: ""; z-index: -1; background: linear-gradient(90deg, #0009, #0003 45%, transparent 70%); pointer-events: none; }
+.hero-poster, .workshop-poster, .workshop-video, .hero::after, .workshop::after { position: absolute; inset: 0; width: 100%; height: 100%; }
+.hero-poster, .workshop-poster, .workshop-video { z-index: -2; }
+.hero-poster img, .workshop-poster img, .workshop-video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.workshop-video { opacity: 0; }
+.workshop-video.has-frame { opacity: 1; }
+.hero::after, .workshop::after { content: ""; z-index: -1; background: linear-gradient(90deg, #0009, #0003 45%, transparent 70%); pointer-events: none; }
+.workshop { position: relative; isolation: isolate; min-height: 100svh; background: #050607; }
+.workshop .section-copy { max-width: 48%; }
+.workshop p { color: #fff; }
 .site-header { padding-top: calc(24px + env(safe-area-inset-top)); }
 .hero-copy { padding-top: clamp(32px, 12svh, 140px); max-width: 48%; }
 .hero h1 { font-size: clamp(48px, 6.1vw, 96px); line-height: 1.02; }
@@ -81,6 +84,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid #fff; outline-offset:
   h1, h2 { font-size: clamp(40px, 11.2vw, 64px); }
   p { font-size: 16px; }
   .symptom, .contact { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .workshop .section-copy { max-width: 100%; }
   .clip { max-width: 440px; justify-self: center; }
   .service-tiles { grid-template-columns: minmax(0, 1fr); }
   .call-button { padding-inline: 14px; font-size: 15px; }
@@ -88,9 +92,11 @@ a:focus-visible, button:focus-visible { outline: 3px solid #fff; outline-offset:
   footer > span { width: 100%; margin: 0; }
 }
 @media (orientation: portrait) {
-  .hero::after { background: linear-gradient(#0008, #0003 35%, transparent 60%); }
+  .hero::after, .workshop::after { background: linear-gradient(#0008, #0003 35%, transparent 60%); }
+  .hero::after { background: linear-gradient(#0008 45%, transparent 65%); }
+  .workshop .section-copy { max-width: 100%; }
   .hero-copy { max-width: 100%; padding-top: clamp(20px, 4svh, 48px); }
-  .hero h1 { font-size: clamp(36px, 10vw, 76px); }
+  .hero h1 { font-size: clamp(32px, 9vw, 76px); }
   .hero p { margin-top: 16px; font-size: 16px; }
   .hero .call-button { margin-top: 16px; }
 }
@@ -102,43 +108,47 @@ a:focus-visible, button:focus-visible { outline: 3px solid #fff; outline-offset:
 }
 @media (prefers-reduced-motion: reduce) {
   .hero { position: relative; }
-  .hero-video, .clip video, .motion-toggle { display: none; }
+  .workshop-video, .clip video, .motion-toggle { display: none; }
 }
 </style>
 </head>
 <body>
   <section class="hero" id="top" aria-labelledby="opening-title">
     <picture class="hero-poster">
-      <source media="(orientation: portrait)" srcset="./hero-tall.jpg">
-      <img src="./hero-wide.jpg" alt="" fetchpriority="high">
+      <source media="(orientation: portrait)" srcset="./hero-ecu-tall.jpg">
+      <img src="./hero-ecu-wide.jpg" alt="" fetchpriority="high">
     </picture>
-    <video class="hero-video" muted playsinline loop autoplay preload="none" aria-hidden="true"></video>
     <header class="site-header">
       <a class="brand" href="#top" aria-label="F1 Repairs Centre home"><img src="data:image/png;base64,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" width="150" height="60" alt="F1 Repairs Centre"></a>
     </header>
     <div class="hero-copy">
-      <h1 id="opening-title">Something<br>not quite right?</h1>
-      <p>Your garage in Hallow, Worcester.</p>
+      <h1 id="opening-title">Want more from your engine?</h1>
+      <p>Professional ECU remapping, tailored to your engine.</p>
       <a class="call-button" href="tel:+441905852342">Call 01905 852342 to Book</a>
     </div>
-    <button class="motion-toggle" type="button" hidden>Pause video</button>
   </section>
   <main>
-    <section class="symptom content-section" id="smoking" aria-labelledby="smoking-title">
+    <section class="workshop content-section" id="smoking" aria-labelledby="smoking-title">
+      <picture class="workshop-poster"><source media="(orientation: portrait)" srcset="./hero-tall.jpg"><img src="./hero-wide.jpg" alt="Car in a dark workshop" loading="lazy"></picture>
+      <video class="workshop-video" muted playsinline loop preload="none" aria-hidden="true"></video>
       <div class="section-copy"><h2 id="smoking-title">Car smoking?</h2><p>Let’s get to the cause.</p><a class="call-button" href="tel:+441905852342">Call 01905 852342 to Book</a></div>
-      <div class="clip"><img src="./car.jpg" width="1280" height="720" alt="Car with exhaust smoke in the workshop"><video data-src="./car.mp4" poster="./car.jpg" muted playsinline loop preload="none" aria-hidden="true"></video></div>
+      <button class="motion-toggle" type="button" hidden>Pause video</button>
+    </section>
+    <section class="symptom content-section" aria-labelledby="service-title">
+      <div class="section-copy"><h2 id="service-title">MOT or service due?</h2><p>MOT tests, oil and filter changes and full servicing.</p><a class="call-button" href="tel:+441905852342">Call 01905 852342 to Book</a></div>
+      <div class="clip"><img src="./service.jpg" width="1800" height="1018" loading="lazy" alt="Fresh engine oil and a new oil filter"></div>
     </section>
     <section class="symptom content-section" aria-labelledby="gearbox-title">
-      <div class="section-copy"><h2 id="gearbox-title">Gearbox going in hard?</h2><p>We’ll help get things moving smoothly.</p><a class="call-button" href="tel:+441905852342">Call 01905 852342 to Book</a></div>
+      <div class="section-copy"><h2 id="gearbox-title">Gearbox going in hard?</h2><p>Gearbox and clutch problems sorted.</p><a class="call-button" href="tel:+441905852342">Call 01905 852342 to Book</a></div>
       <div class="clip"><img src="./gearbox.jpg" width="1280" height="720" alt="Gearbox in the workshop"><video data-src="./gearbox.mp4" poster="./gearbox.jpg" muted playsinline loop preload="none" aria-hidden="true"></video></div>
+    </section>
+    <section class="symptom content-section" aria-labelledby="dash-title">
+      <div class="section-copy"><h2 id="dash-title">Warning light on?</h2><p>Full diagnostics to find the real fault.</p><a class="call-button" href="tel:+441905852342">Call 01905 852342 to Book</a></div>
+      <div class="clip"><img src="./dash.jpg" width="1280" height="720" alt="Dashboard with an amber warning light"><video data-src="./dash.mp4" poster="./dash.jpg" muted playsinline loop preload="none" aria-hidden="true"></video></div>
     </section>
     <section class="symptom content-section" aria-labelledby="starter-title">
       <div class="section-copy"><h2 id="starter-title">Starting slower?</h2><p>We’ll find out what’s holding it back.</p><a class="call-button" href="tel:+441905852342">Call 01905 852342 to Book</a></div>
       <div class="clip"><img src="./starter.jpg" width="1280" height="720" alt="Starter motor in the workshop"><video data-src="./starter.mp4" poster="./starter.jpg" muted playsinline loop preload="none" aria-hidden="true"></video></div>
-    </section>
-    <section class="symptom content-section" aria-labelledby="dash-title">
-      <div class="section-copy"><h2 id="dash-title">Warning light on?</h2><p>Get answers with a diagnostic check.</p><a class="call-button" href="tel:+441905852342">Call 01905 852342 to Book</a></div>
-      <div class="clip"><img src="./dash.jpg" width="1280" height="720" alt="Dashboard with an amber warning light"><video data-src="./dash.mp4" poster="./dash.jpg" muted playsinline loop preload="none" aria-hidden="true"></video></div>
     </section>
     <section class="symptom content-section" id="recovery" aria-labelledby="recovery-title">
       <div class="section-copy"><h2 id="recovery-title">Recovery from your front door</h2><p>Broken down? We recover across Worcester and the surrounding area.</p><p>Free pick up and drop off within 15 miles of our garage.</p><a class="call-button" href="tel:+441905852342">Call 01905 852342 to Book</a></div>
@@ -170,79 +180,84 @@ a:focus-visible, button:focus-visible { outline: 3px solid #fff; outline-offset:
 
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   const portrait = matchMedia('(orientation: portrait)');
-  const heroVideo = document.querySelector('.hero-video');
+  const workshopVideo = document.querySelector('.workshop-video');
   const toggle = document.querySelector('.motion-toggle');
-  let heroCovered = false;
-  let heroPaused = false;
-  const visibleVideos = new Set();
+  let workshopPaused = false;
+  let activeVideo = null;
+  const visibleVideos = new Map();
   const blockedVideos = new Set();
   const videos = document.querySelectorAll('video');
-  function updateVideo(video) {
-    if (!visibleVideos.has(video) || motion.matches || document.hidden || blockedVideos.has(video) || (video === heroVideo && (heroCovered || heroPaused))) {
-      video.pause();
-      return;
+  function updatePlayback() {
+    activeVideo = null;
+    let largest = 0;
+    if (!motion.matches && !document.hidden) {
+      for (const [video, ratio] of visibleVideos) {
+        if (ratio > largest && !blockedVideos.has(video) && !(video === workshopVideo && workshopPaused)) {
+          activeVideo = video;
+          largest = ratio;
+        }
+      }
     }
+    // Pause every other clip before requesting playback, including pending play requests.
+    videos.forEach(video => { if (video !== activeVideo) video.pause(); });
+    if (!activeVideo || !activeVideo.paused) return;
+    const video = activeVideo;
     if (!video.hasAttribute('src')) video.src = video.dataset.src;
     video.play().catch(error => {
       if (error.name === 'AbortError') return;
-      blockedVideos.add(video);
-      video.pause();
-      video.classList.remove('has-frame');
-      if (video === heroVideo) toggle.hidden = true;
+      blockVideo(video);
     });
   }
-  function selectHero() {
-    const name = portrait.matches ? 'hero-tall' : 'hero-wide';
-    heroVideo.dataset.src = `./${name}.mp4`;
-    heroVideo.poster = `./${name}.jpg`;
-    heroVideo.classList.remove('has-frame');
-    if (heroVideo.hasAttribute('src')) heroVideo.src = heroVideo.dataset.src;
-    updateVideo(heroVideo);
+  function blockVideo(video) {
+    blockedVideos.add(video);
+    video.pause();
+    video.classList.remove('has-frame');
+    if (video === workshopVideo) toggle.hidden = true;
+    updatePlayback();
   }
-  selectHero();
-  portrait.addEventListener('change', selectHero);
+  function selectWorkshop() {
+    const name = portrait.matches ? 'hero-tall' : 'hero-wide';
+    workshopVideo.dataset.src = `./${name}.mp4`;
+    workshopVideo.poster = `./${name}.jpg`;
+    workshopVideo.classList.remove('has-frame');
+    blockedVideos.delete(workshopVideo);
+    if (workshopVideo.hasAttribute('src')) workshopVideo.src = workshopVideo.dataset.src;
+    updatePlayback();
+  }
+  selectWorkshop();
+  portrait.addEventListener('change', selectWorkshop);
   toggle.addEventListener('click', () => {
-    heroPaused = !heroPaused;
-    toggle.textContent = heroPaused ? 'Play video' : 'Pause video';
-    updateVideo(heroVideo);
+    workshopPaused = !workshopPaused;
+    toggle.textContent = workshopPaused ? 'Play video' : 'Pause video';
+    updatePlayback();
   });
-  // The sticky video remains geometrically visible beneath the opaque page.
-  new IntersectionObserver(([entry]) => {
-    heroCovered = entry.isIntersecting && entry.intersectionRatio > 0;
-    updateVideo(heroVideo);
-  }, { threshold: .001 }).observe(document.querySelector('main'));
   const playback = new IntersectionObserver(entries => {
     for (const entry of entries) {
-      if (entry.isIntersecting) visibleVideos.add(entry.target);
+      if (entry.isIntersecting) visibleVideos.set(entry.target, entry.intersectionRatio);
       else visibleVideos.delete(entry.target);
-      updateVideo(entry.target);
     }
-  });
+    updatePlayback();
+  }, { threshold: [0, .25, .5, .75, 1] });
   videos.forEach(video => {
     video.addEventListener('playing', () => {
-      if (visibleVideos.has(video) && !motion.matches && !document.hidden && !blockedVideos.has(video) && !(video === heroVideo && (heroCovered || heroPaused))) {
+      if (video === activeVideo && !motion.matches && !document.hidden) {
         video.classList.add('has-frame');
-        if (video === heroVideo) toggle.hidden = false;
+        if (video === workshopVideo) toggle.hidden = false;
       } else video.pause();
     });
-    video.addEventListener('error', () => {
-      blockedVideos.add(video);
-      video.classList.remove('has-frame');
-      video.pause();
-      if (video === heroVideo) toggle.hidden = true;
-    });
+    video.addEventListener('error', () => blockVideo(video));
     playback.observe(video);
   });
-  document.addEventListener('visibilitychange', () => videos.forEach(updateVideo));
-  window.addEventListener('pagehide', () => videos.forEach(video => video.pause()));
-  window.addEventListener('pageshow', () => videos.forEach(updateVideo));
-  motion.addEventListener('change', () => {
-    videos.forEach(video => {
-      if (motion.matches) video.classList.remove('has-frame');
-      updateVideo(video);
-    });
+  document.addEventListener('visibilitychange', updatePlayback);
+  window.addEventListener('pagehide', () => {
+    activeVideo = null;
+    videos.forEach(video => video.pause());
   });
-
+  window.addEventListener('pageshow', updatePlayback);
+  motion.addEventListener('change', () => {
+    if (motion.matches) videos.forEach(video => video.classList.remove('has-frame'));
+    updatePlayback();
+  });
 })();
 </script>
 </body>
