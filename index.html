@@ -38,7 +38,7 @@ body{margin:0;background:var(--ink);color:var(--bone);font-family:var(--text);fo
 a{color:inherit;text-underline-offset:.18em}
 a,button,label,input,select{touch-action:manipulation}
 :focus-visible{outline:3px solid var(--mint);outline-offset:3px;border-radius:4px}
-.sel select:focus-visible,.plate button:focus-visible,.details :focus-visible,.signp :focus-visible{outline-color:var(--teal)}
+.sel select:focus-visible,.plate button:focus-visible,.reset-car:focus-visible,.details :focus-visible,.signp :focus-visible{outline-color:var(--teal)}
 img,video{max-width:100%;height:auto;display:block}
 h1,h2,h3,p,figure,fieldset{margin:0}
 .sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -52,7 +52,7 @@ h1,h2,h3,p,figure,fieldset{margin:0}
 /* ---------- fixed header (solid: never transparent over text) ---------- */
 .top{position:fixed;z-index:30;top:0;left:0;right:0;height:calc(56px + env(safe-area-inset-top,0px));display:flex;align-items:center;gap:8px;
   padding:env(safe-area-inset-top,0px) max(12px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px));
-  background:#16191Cf5;border-bottom:1px solid #EEEAE31f}
+  background:#16191C;border-bottom:1px solid #EEEAE31f}
 .mark{display:flex;align-items:center;min-height:44px;margin-right:auto;text-decoration:none}
 .mark img{height:30px;width:auto}
 .pill{font:700 16px/1 var(--cond);font-stretch:85%;color:var(--bone);background:#0E1012;border:1px solid #EEEAE34d;border-radius:999px;min-height:44px;padding:0 16px;display:inline-flex;align-items:center;text-decoration:none;white-space:nowrap}
@@ -74,7 +74,7 @@ h1,h2,h3,p,figure,fieldset{margin:0}
 .call-button:hover{background:var(--signal-press)}
 /* press feedback on every control (no hover-only states on a phone) */
 .bar a,.call-button,.pill,.ghost,.plate button,.lnk,.callbig,.signp .tel,.copy,.seg label,.sel select{transition:transform .12s var(--ease),filter .12s}
-.bar a:active,.call-button:active,.pill:active,.ghost:active,.plate button:active,.lnk:active,.callbig:active,.signp .tel:active,.copy:active,.seg label:active{transform:scale(.97);filter:brightness(.92)}
+.bar a:active,.call-button:active,.pill:active,.ghost:active,.plate button:active,.reset-car:active,.lnk:active,.callbig:active,.signp .tel:active,.copy:active,.seg label:active{transform:scale(.97);filter:brightness(.92)}
 
 /* ---------- 1. hero: the remap bench, full bleed ---------- */
 .hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-start;overflow:hidden;background:var(--deep);isolation:isolate}
@@ -238,6 +238,10 @@ html:not(.js) .ck-out .due{display:none}
 
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 
+.lookup-note{font-size:16px;color:var(--bone-ink);margin:0 0 12px;max-width:44ch}
+.reset-car{justify-self:start;min-height:44px;padding:8px 12px;border:2px solid var(--teal);border-radius:8px;background:transparent;color:var(--teal);font:600 16px var(--text);cursor:pointer}
+html:not(.js) .reset-car{display:none}
+
 /* ---------- the story: North Shields' pinned x-ray scene, F1's seven jobs ---------- */
 :root{--bay:#0E1012}
 .story{position:relative;background:var(--bay)}
@@ -375,8 +379,9 @@ html:not(.js) .ck-out .due{display:none}
     </div>
     <form class="plate-form" id="plate-form" action="#pick" novalidate>
       <label class="plate-label mono" for="reg">Enter your registration</label>
+      <p class="lookup-note" id="lookup-note">This demo keeps your reg; it does not look your car up. Choose your car below.</p>
       <div class="plate">
-        <input id="reg" name="reg" type="text" inputmode="text" enterkeyhint="go" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" maxlength="10" placeholder="AB12 CDE" aria-describedby="reg-msg">
+        <input id="reg" name="reg" type="text" inputmode="text" enterkeyhint="go" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" maxlength="10" placeholder="AB12 CDE" aria-describedby="lookup-note reg-msg">
         <button type="submit" aria-label="Go: keep my registration and pick my car">GO</button>
       </div>
       <p class="reg-msg" id="reg-msg" aria-live="polite"></p>
@@ -388,11 +393,12 @@ html:not(.js) .ck-out .due{display:none}
         <label class="sel"><span class="mono">Model</span><select id="md" disabled><option value="">Choose model</option></select></label>
         <label class="sel"><span class="mono">Engine</span><select id="en" disabled><option value="">Choose engine</option></select></label>
       </div>
+      <button class="reset-car" id="reset-car" type="button">Reset car and registration</button>
       <p class="nojs-note">This check needs JavaScript. Call 01905 852342 and we will talk you through your car.</p>
     </div>
     <div class="result" id="result" aria-live="polite"></div>
   </div>
-  <script type="application/json" id="remap-data">{"status":"SAMPLE","cars":[{"make":"Audi","model":"A3 (8V)","engine":"2.0 TDI 150","fuel":"Diesel","years":"2013-2020","stock_bhp":148,"stock_nm":340,"stage1_bhp":185,"stage1_nm":410,"source":"SAMPLE"},{"make":"BMW","model":"3 Series (F30)","engine":"320d 190","fuel":"Diesel","years":"2015-2019","stock_bhp":187,"stock_nm":400,"stage1_bhp":225,"stage1_nm":470,"source":"SAMPLE"},{"make":"Ford","model":"Fiesta (Mk7)","engine":"1.0 EcoBoost 125","fuel":"Petrol","years":"2013-2017","stock_bhp":123,"stock_nm":170,"stage1_bhp":145,"stage1_nm":220,"source":"SAMPLE"},{"make":"Ford","model":"Focus (Mk3)","engine":"2.0 TDCi 150","fuel":"Diesel","years":"2015-2018","stock_bhp":148,"stock_nm":370,"stage1_bhp":185,"stage1_nm":420,"source":"SAMPLE"},{"make":"Ford","model":"Transit Custom","engine":"2.0 EcoBlue 130","fuel":"Diesel","years":"2016-2023","stock_bhp":128,"stock_nm":385,"stage1_bhp":165,"stage1_nm":440,"source":"SAMPLE"},{"make":"Land Rover","model":"Discovery Sport","engine":"2.0 TD4 180","fuel":"Diesel","years":"2015-2019","stock_bhp":178,"stock_nm":430,"stage1_bhp":210,"stage1_nm":500,"source":"SAMPLE"},{"make":"Mercedes-Benz","model":"C-Class (W205)","engine":"C220d 170","fuel":"Diesel","years":"2014-2018","stock_bhp":168,"stock_nm":400,"stage1_bhp":205,"stage1_nm":470,"source":"SAMPLE"},{"make":"Nissan","model":"Qashqai (J11)","engine":"1.5 dCi 110","fuel":"Diesel","years":"2014-2018","stock_bhp":108,"stock_nm":260,"stage1_bhp":130,"stage1_nm":300,"source":"SAMPLE"},{"make":"Skoda","model":"Octavia (Mk3)","engine":"2.0 TDI 150","fuel":"Diesel","years":"2013-2020","stock_bhp":148,"stock_nm":340,"stage1_bhp":185,"stage1_nm":410,"source":"SAMPLE"},{"make":"Vauxhall","model":"Astra (K)","engine":"1.6 CDTi 136","fuel":"Diesel","years":"2015-2019","stock_bhp":134,"stock_nm":320,"stage1_bhp":165,"stage1_nm":380,"source":"SAMPLE"},{"make":"Volkswagen","model":"Golf (Mk7)","engine":"1.5 TSI 150","fuel":"Petrol","years":"2017-2020","stock_bhp":148,"stock_nm":250,"stage1_bhp":175,"stage1_nm":300,"source":"SAMPLE"},{"make":"Volkswagen","model":"Golf (Mk7)","engine":"2.0 TDI 150","fuel":"Diesel","years":"2013-2020","stock_bhp":148,"stock_nm":340,"stage1_bhp":185,"stage1_nm":410,"source":"SAMPLE"},{"make":"Volkswagen","model":"Transporter (T6)","engine":"2.0 TDI 150","fuel":"Diesel","years":"2015-2019","stock_bhp":148,"stock_nm":340,"stage1_bhp":180,"stage1_nm":400,"source":"SAMPLE"}]}</script>
+  <script type="application/json" id="remap-data">{"status":"SAMPLE","cars":[{"make":"Audi","model":"A3 (8V)","engine":"2.0 TDI 150","fuel":"Diesel","years":"2013-2014","stock_bhp":148,"stock_nm":320,"stage1_bhp":185,"stage1_nm":390,"stock_ps":150,"stage1_status":"SAMPLE","source":"https://audi.media-corner.ch/press/der-neue-audi-a3-sportback"},{"make":"Audi","model":"A4 (B9)","engine":"2.0 TDI ultra 150 manual","fuel":"Diesel","years":"2016 model year","stock_bhp":148,"stock_nm":320,"stage1_bhp":185,"stage1_nm":390,"stock_ps":150,"stage1_status":"SAMPLE","source":"https://autocatalogarchive.com/wp-content/uploads/2016/05/Audi-A4-2016-GER.pdf"},{"make":"BMW","model":"1 Series (F20 facelift)","engine":"118d 150","fuel":"Diesel","years":"2015 model year","stock_bhp":148,"stock_nm":320,"stage1_bhp":180,"stage1_nm":380,"stock_ps":150,"stage1_status":"SAMPLE","source":"https://www.press.bmwgroup.com/global/article/attachment/T0200199EN/302714"},{"make":"BMW","model":"3 Series (F30)","engine":"320d 190","fuel":"Diesel","years":"2015 model year","stock_bhp":187,"stock_nm":400,"stage1_bhp":225,"stage1_nm":470,"stock_ps":190,"stage1_status":"SAMPLE","source":"https://www.press.bmwgroup.com/united-kingdom/article/detail/T0232443EN_GB/the-new-bmw-3-series-2015"},{"make":"Ford","model":"Fiesta (Mk8)","engine":"1.0 EcoBoost 100 manual","fuel":"Petrol","years":"2017 model year","stock_bhp":99,"stock_nm":170,"stage1_bhp":125,"stage1_nm":210,"stock_ps":100,"stage1_status":"SAMPLE","source":"https://media.ford.com/content/dam/fordmedia/Europe/documents/productReleases/Fiesta/FordFiesta2017_FiestaDrive_TechSpecs_EU.pdf"},{"make":"Ford","model":"Fiesta (Mk8)","engine":"1.0 EcoBoost 125 manual","fuel":"Petrol","years":"2017 model year","stock_bhp":123,"stock_nm":170,"stage1_bhp":145,"stage1_nm":220,"stock_ps":125,"stage1_status":"SAMPLE","source":"https://media.ford.com/content/dam/fordmedia/Europe/documents/productReleases/Fiesta/FordFiesta2017_FiestaDrive_TechSpecs_EU.pdf"},{"make":"Ford","model":"Focus (Mk4)","engine":"1.5 EcoBlue 120 manual","fuel":"Diesel","years":"2018 model year","stock_bhp":118,"stock_nm":300,"stage1_bhp":145,"stage1_nm":350,"stock_ps":120,"stage1_status":"SAMPLE","source":"https://media.ford.com/content/dam/fordmedia/Europe/documents/productReleases/Focus/2018/FORD_FOCUS_2018_MediaDrive_TechSpecs_EU.pdf"},{"make":"Ford","model":"Focus (Mk4)","engine":"1.5 EcoBlue 95 manual","fuel":"Diesel","years":"2018 model year","stock_bhp":94,"stock_nm":300,"stage1_bhp":130,"stage1_nm":340,"stock_ps":95,"stage1_status":"SAMPLE","source":"https://media.ford.com/content/dam/fordmedia/Europe/documents/productReleases/Focus/2018/FORD_FOCUS_2018_MediaDrive_TechSpecs_EU.pdf"},{"make":"Ford","model":"Transit Custom","engine":"2.0 EcoBlue 130","fuel":"Diesel","years":"2016 model year","stock_bhp":128,"stock_nm":385,"stage1_bhp":165,"stage1_nm":440,"stock_ps":130,"stage1_status":"SAMPLE","source":"https://media.ford.com/content/dam/fordmedia/Europe/documents/productReleases/Transit/Transit2016_MediaDrive_EU.pdf"},{"make":"Honda","model":"Civic (Mk10)","engine":"1.0 VTEC Turbo 129 manual","fuel":"Petrol","years":"2017 model year","stock_bhp":127,"stock_nm":200,"stage1_bhp":145,"stage1_nm":230,"stock_ps":129,"stage1_status":"SAMPLE","source":"https://hondanews.eu/fr/fr/cars/media/pressreleases/103510/honda-civic-5-portes-2017"},{"make":"Honda","model":"Civic (Mk10)","engine":"1.5 VTEC Turbo 182 manual","fuel":"Petrol","years":"2017 model year","stock_bhp":180,"stock_nm":240,"stage1_bhp":205,"stage1_nm":280,"stock_ps":182,"stage1_status":"SAMPLE","source":"https://hondanews.eu/fr/fr/cars/media/pressreleases/103510/honda-civic-5-portes-2017"},{"make":"Hyundai","model":"i30 (PD facelift)","engine":"1.0 T-GDi 120 non-hybrid","fuel":"Petrol","years":"2020 model year","stock_bhp":118,"stock_nm":172,"stage1_bhp":140,"stage1_nm":210,"stock_ps":120,"stage1_status":"SAMPLE","source":"https://www.hyundai.news/newsroom/dam/eu/press-kits/20200226_i30/20200226_i30_Technical_Data_preliminary_Update.pdf"},{"make":"Hyundai","model":"i30 (PD facelift)","engine":"1.6 CRDi 115 manual","fuel":"Diesel","years":"2020 model year","stock_bhp":113,"stock_nm":280,"stage1_bhp":140,"stage1_nm":330,"stock_ps":115,"stage1_status":"SAMPLE","source":"https://www.hyundai.news/newsroom/dam/eu/press-kits/20200226_i30/20200226_i30_Technical_Data_preliminary_Update.pdf"},{"make":"Kia","model":"Cee'd (JD facelift)","engine":"1.0 T-GDI 120","fuel":"Petrol","years":"2016 model year","stock_bhp":118,"stock_nm":171,"stage1_bhp":140,"stage1_nm":210,"stock_ps":120,"stage1_status":"SAMPLE","source":"https://press.kia.com/es/es/home/notas-de-prensa/press-kits/2017/ceed.html"},{"make":"Kia","model":"Cee'd (JD facelift)","engine":"1.6 CRDi 136 manual","fuel":"Diesel","years":"2016 model year","stock_bhp":134,"stock_nm":280,"stage1_bhp":160,"stage1_nm":330,"stock_ps":136,"stage1_status":"SAMPLE","source":"https://press.kia.com/es/es/home/notas-de-prensa/press-kits/2017/ceed.html"},{"make":"Land Rover","model":"Discovery Sport","engine":"2.0 TD4 180","fuel":"Diesel","years":"2018 model year","stock_bhp":178,"stock_nm":430,"stage1_bhp":210,"stage1_nm":500,"stock_ps":180,"stage1_status":"SAMPLE","source":"https://media.jlr.com/range-rover/en-gb/news/2017/06/latest-ingenium-engine-technology-injects-more-performance-discovery-sport-and-evoque"},{"make":"Mercedes-Benz","model":"A-Class (W176)","engine":"A180 1.6 122","fuel":"Petrol","years":"2015 model year","stock_bhp":120,"stock_nm":200,"stage1_bhp":145,"stage1_nm":240,"stock_ps":122,"stage1_status":"SAMPLE","source":"https://xr793.com/wp-content/uploads/2022/12/2015-Mercedes-Benz-A-Class-UK.pdf"},{"make":"Mercedes-Benz","model":"C-Class (W205)","engine":"C220 BlueTEC 2.1 170","fuel":"Diesel","years":"2014 model year","stock_bhp":168,"stock_nm":400,"stage1_bhp":205,"stage1_nm":470,"stock_ps":170,"stage1_status":"SAMPLE","source":"https://autocatalogarchive.com/wp-content/uploads/2024/03/Mercedes-Clase-C-2014-UK.pdf"},{"make":"Mini","model":"Hatch 5-door (F55)","engine":"Cooper 1.5 136","fuel":"Petrol","years":"2014 model year","stock_bhp":134,"stock_nm":220,"stage1_bhp":160,"stage1_nm":270,"stock_ps":136,"stage1_status":"SAMPLE","source":"https://www.press.bmwgroup.com/global/article/detail/T0181742EN/the-new-mini-5-door?language=en"},{"make":"Mini","model":"Hatch 5-door (F55)","engine":"Cooper S 2.0 192","fuel":"Petrol","years":"2014 model year","stock_bhp":189,"stock_nm":280,"stage1_bhp":220,"stage1_nm":330,"stock_ps":192,"stage1_status":"SAMPLE","source":"https://www.press.bmwgroup.com/global/article/detail/T0181742EN/the-new-mini-5-door?language=en"},{"make":"Nissan","model":"Qashqai (J11)","engine":"1.2 DIG-T 115 manual","fuel":"Petrol","years":"2017 model year","stock_bhp":113,"stock_nm":190,"stage1_bhp":135,"stage1_nm":220,"stock_ps":115,"stage1_status":"SAMPLE","source":"https://www.nissan-cdn.net/content/dam/Nissan/fr/brochures/Brochures-vehicules/eBrochure-QASHQAI-2017.pdf"},{"make":"Nissan","model":"Qashqai (J11)","engine":"1.5 dCi 110 manual","fuel":"Diesel","years":"2017 model year","stock_bhp":108,"stock_nm":260,"stage1_bhp":130,"stage1_nm":300,"stock_ps":110,"stage1_status":"SAMPLE","source":"https://www.nissan-cdn.net/content/dam/Nissan/fr/brochures/Brochures-vehicules/eBrochure-QASHQAI-2017.pdf"},{"make":"Peugeot","model":"208 (Mk1 facelift)","engine":"1.2 PureTech 110","fuel":"Petrol","years":"2015 model year","stock_bhp":108,"stock_nm":205,"stage1_bhp":130,"stage1_nm":240,"stock_ps":110,"stage1_status":"SAMPLE","source":"https://www.forum-peugeot.com/wp-content/uploads/2016/05/cat208avril2015.pdf"},{"make":"Peugeot","model":"308 (Mk2)","engine":"1.2 PureTech 110","fuel":"Petrol","years":"2014 model year","stock_bhp":108,"stock_nm":205,"stage1_bhp":130,"stage1_nm":240,"stock_ps":110,"stage1_status":"SAMPLE","source":"https://www.media.stellantis.com/em-en/peugeot/press/peugeot-technologies-introducing-efficient-euro-6-engines-and-the-208-hybrid-air-2l-demonstrator"},{"make":"Renault","model":"Clio (Mk4 facelift)","engine":"0.9 TCe 90","fuel":"Petrol","years":"2016 model year","stock_bhp":89,"stock_nm":140,"stage1_bhp":105,"stage1_nm":165,"stock_ps":90,"stage1_status":"SAMPLE","source":"https://autocatalogarchive.com/wp-content/uploads/2019/04/Renault-Clio-2016-UK.pdf"},{"make":"Renault","model":"Clio (Mk4 facelift)","engine":"1.5 dCi 90","fuel":"Diesel","years":"2016 model year","stock_bhp":89,"stock_nm":220,"stage1_bhp":110,"stage1_nm":260,"stock_ps":90,"stage1_status":"SAMPLE","source":"https://autocatalogarchive.com/wp-content/uploads/2019/04/Renault-Clio-2016-UK.pdf"},{"make":"Seat","model":"Leon SC (Mk3 facelift)","engine":"1.4 TSI 150","fuel":"Petrol","years":"2017 model year","stock_bhp":148,"stock_nm":250,"stage1_bhp":175,"stage1_nm":300,"stock_ps":150,"stage1_status":"SAMPLE","source":"https://www.seat-mediacenter.com/content/dam/seat-media-center/Documents/2016/Technical-Specifications-New-SEAT-Leon-SC2016EN.pdf"},{"make":"Skoda","model":"Octavia (Mk4)","engine":"1.5 TSI Evo 150 manual","fuel":"Petrol","years":"2020 model year","stock_bhp":148,"stock_nm":250,"stage1_bhp":175,"stage1_nm":300,"stock_ps":150,"stage1_status":"SAMPLE","source":"https://cdn.skoda-storyboard.com/2020/03/OCTAVIA_EN_Engines.pdf"},{"make":"Skoda","model":"Octavia (Mk4)","engine":"2.0 TDI Evo 150 manual","fuel":"Diesel","years":"2020 model year","stock_bhp":148,"stock_nm":340,"stage1_bhp":185,"stage1_nm":410,"stock_ps":150,"stage1_status":"SAMPLE","source":"https://cdn.skoda-storyboard.com/2020/03/OCTAVIA_EN_Engines.pdf"},{"make":"Toyota","model":"Auris (Mk2 facelift)","engine":"1.2T 116","fuel":"Petrol","years":"2015 model year","stock_bhp":114,"stock_nm":185,"stage1_bhp":135,"stage1_nm":220,"stock_ps":116,"stage1_status":"SAMPLE","source":"https://media.toyota.co.uk/new-toyota-auris/"},{"make":"Toyota","model":"Auris (Mk2 facelift)","engine":"1.6 D-4D 112","fuel":"Diesel","years":"2015 model year","stock_bhp":110,"stock_nm":270,"stage1_bhp":130,"stage1_nm":310,"stock_ps":112,"stage1_status":"SAMPLE","source":"https://media.toyota.co.uk/new-toyota-auris/"},{"make":"Vauxhall","model":"Astra (K)","engine":"1.6 CDTi 136 manual","fuel":"Diesel","years":"2016 model year","stock_bhp":134,"stock_nm":320,"stage1_bhp":165,"stage1_nm":380,"stock_ps":136,"stage1_status":"SAMPLE","source":"https://www.vauxhall.co.uk/content/dam/vauxhall/Home/PDFs/Cars/astra/price_guides/014_New_ASTRA_Spec_PG_22_June_2016-1466586429.pdf"},{"make":"Vauxhall","model":"Corsa (E)","engine":"1.4i 90 manual","fuel":"Petrol","years":"2018 model year","stock_bhp":89,"stock_nm":130,"stage1_bhp":95,"stage1_nm":140,"stock_ps":90,"stage1_status":"SAMPLE","source":"https://www.vauxhall.co.uk/content/dam/vauxhall/Home/PDFs/Cars/corsa/price-guides/GML_10935891_Corsa_Spec_PG_1_April_2018-1522319225.pdf"},{"make":"Volkswagen","model":"Golf (Mk7)","engine":"1.5 TSI 150","fuel":"Petrol","years":"2017-2019","stock_bhp":148,"stock_nm":250,"stage1_bhp":175,"stage1_nm":300,"stock_ps":150,"stage1_status":"SAMPLE","source":"https://www.volkswagen-newsroom.com/en/engine-versions-golf-7-profile-20040"},{"make":"Volkswagen","model":"Golf (Mk7)","engine":"2.0 TDI 150","fuel":"Diesel","years":"2017 model year (facelift)","stock_bhp":148,"stock_nm":340,"stage1_bhp":185,"stage1_nm":410,"stock_ps":150,"stage1_status":"SAMPLE","source":"https://www.volkswagen.se/idhub/content/dam/onehub_pkw/importers/se/hjalp-och-support/broschyrer/golf/tidigare-golf/nya_golf_modellbroschyr_web_30mars.pdf"},{"make":"Volkswagen","model":"Passat (B8 facelift)","engine":"2.0 TDI Evo 150 manual","fuel":"Diesel","years":"2019-2020","stock_bhp":148,"stock_nm":340,"stage1_bhp":185,"stage1_nm":410,"stock_ps":150,"stage1_status":"SAMPLE","source":"https://www.volkswagen-newsroom.com/en/the-new-passat-the-update-5070/download"},{"make":"Volkswagen","model":"Polo (Mk6)","engine":"1.0 TSI 95","fuel":"Petrol","years":"2017-2019","stock_bhp":94,"stock_nm":175,"stage1_bhp":120,"stage1_nm":220,"stock_ps":95,"stage1_status":"SAMPLE","source":"https://www.volkswagen-newsroom.com/en/the-new-polo-driving-presentation-2574/highly-efficient-mpi-tsi-tgi-tdi-and-dsg-engines-2602"},{"make":"Volkswagen","model":"Transporter (T6)","engine":"2.0 TDI 102 Euro 6 manual","fuel":"Diesel","years":"2016 model year","stock_bhp":101,"stock_nm":250,"stage1_bhp":130,"stage1_nm":300,"stock_ps":102,"stage1_status":"SAMPLE","source":"https://xr793.com/wp-content/uploads/2022/12/2016-VW-Transporter-T6-UK.pdf"},{"make":"Volkswagen","model":"Transporter (T6)","engine":"2.0 TDI 140 Euro 5","fuel":"Diesel","years":"2015-2016","stock_bhp":138,"stock_nm":340,"stage1_bhp":170,"stage1_nm":400,"stock_ps":140,"stage1_status":"SAMPLE","source":"https://xr793.com/wp-content/uploads/2022/12/2016-VW-Transporter-T6-UK.pdf"},{"make":"Volvo","model":"V40","engine":"D2 2.0 120","fuel":"Diesel","years":"2016 model year","stock_bhp":118,"stock_nm":280,"stage1_bhp":145,"stage1_nm":330,"stock_ps":120,"stage1_status":"SAMPLE","source":"https://www.volvocars.com/uk/media/press-releases/31478D3AC90C04A5/"}]}</script>
 </section>
 
 <!-- 3. The x-ray story (North Shields engine): one pinned scene, seven jobs lit one at a time -->
@@ -417,7 +423,7 @@ html:not(.js) .ck-out .due{display:none}
       </li>
       <li class="beat chk" data-beat="oil" data-sys="oil" data-len="1">
         <div class="hd"><p class="k mono">Check 3 of 7 · Oil and filter</p><h2>MOT or service due?</h2></div>
-        <figure class="media"><img src="./service.jpg" width="1800" height="1018" loading="lazy" decoding="async" alt="Fresh engine oil and a new oil filter"></figure>
+        <figure class="media"><img src="./Car-Servicing-Worcester.jpg" width="1254" height="836" loading="lazy" decoding="async" alt="Mechanic servicing a car engine"></figure>
         <div class="ft"><p class="what">MOT tests, oil and filter changes and full servicing.</p><a class="call-button" href="tel:+441905852342">Call 01905 852342 to Book</a></div>
       </li>
       <li class="beat chk" data-beat="gearbox" data-sys="gearbox" data-len="1">
@@ -427,7 +433,7 @@ html:not(.js) .ck-out .due{display:none}
       </li>
       <li class="beat chk" data-beat="dash" data-sys="dash" data-len="1">
         <div class="hd"><p class="k mono">Check 5 of 7 · Diagnostics</p><h2>Warning light on?</h2></div>
-        <figure class="media"><img src="./dash.jpg" width="1024" height="578" loading="lazy" decoding="async" alt="Dashboard with an amber warning light"><video data-src="./dash.mp4" muted playsinline loop preload="none" aria-hidden="true"></video></figure>
+        <figure class="media"><img src="./F1-CAR-DIAGNOSTICS.jpg" width="1254" height="836" loading="lazy" decoding="async" alt="Diagnostic equipment connected to a car to investigate faults"></figure>
         <div class="ft"><p class="what">Full diagnostics to find the real fault.</p><a class="call-button" href="tel:+441905852342">Call 01905 852342 to Book</a></div>
       </li>
       <li class="beat chk" data-beat="start" data-sys="start" data-len="1">
@@ -470,9 +476,9 @@ html:not(.js) .ck-out .due{display:none}
     <li><img src="./Car-Servicing-Worcester.jpg" width="1254" height="836" loading="lazy" decoding="async" alt="Mechanic working on an engine"><div><span class="mono no" aria-hidden="true">02</span><h3>Servicing and repairs</h3><p>Routine servicing and mechanical repairs.</p></div></li>
     <li><img src="./F1-CAR-DIAGNOSTICS.jpg" width="1254" height="836" loading="lazy" decoding="async" alt="Vehicle diagnostic equipment"><div><span class="mono no" aria-hidden="true">03</span><h3>Diagnostics</h3><p>Computer checks to help identify faults.</p></div></li>
     <li><img src="./F1-MOT-TEST.jpg" width="1255" height="835" loading="lazy" decoding="async" alt="Vehicle underside in the workshop"><div><span class="mono no" aria-hidden="true">04</span><h3>MOT tests</h3><p>MOT testing in Worcester.</p></div></li>
-    <li><img src="./tile-car.jpg" width="1500" height="1000" loading="lazy" decoding="async" alt="Car with exhaust smoke in the workshop"><div><span class="mono no" aria-hidden="true">05</span><h3>DPF cleaning and repair</h3><p>Diesel particulate filter cleaning and repair.</p></div></li>
+    <li><img src="./dpf-filter.jpg" width="1536" height="1024" loading="lazy" decoding="async" alt="Illustration: diesel particulate filter with its ceramic honeycomb core exposed"><div><span class="mono no" aria-hidden="true">05</span><h3>DPF cleaning and repair</h3><p>Diesel particulate filter cleaning and repair.</p></div></li>
     <li><img src="./tile-gearbox.jpg" width="1500" height="1000" loading="lazy" decoding="async" alt="Gearbox in the workshop"><div><span class="mono no" aria-hidden="true">06</span><h3>Clutches and gearboxes</h3><p>Help with clutch and gearbox problems.</p></div></li>
-    <li><img src="./tile-brakes.jpg" width="1500" height="1000" loading="lazy" decoding="async" alt="Drawing of a brake disc and caliper"><div><span class="mono no" aria-hidden="true">07</span><h3>Brakes</h3><p>Brake repairs and replacement.</p></div></li>
+    <li><img src="./tile-brakes.jpg" width="1500" height="1000" loading="lazy" decoding="async" alt="Illustration: brake disc"><div><span class="mono no" aria-hidden="true">07</span><h3>Brakes</h3><p>Brake repairs and replacement.</p></div></li>
     <li><img src="./tile-recovery.jpg" width="1500" height="1000" loading="lazy" decoding="async" alt="Car recovery to the garage"><div><span class="mono no" aria-hidden="true">08</span><h3>Breakdown recovery</h3><p>Local recovery from roadside to workshop.</p></div></li>
   </ul>
   <div class="services-call"><a class="call-button" href="tel:+441905852342">Call 01905 852342 to Book</a></div>
@@ -586,7 +592,7 @@ function bringIntoView(el) {
   var r = el.getBoundingClientRect(), th = (topEl ? topEl.getBoundingClientRect().height : 0) + 10, bh = barCover() + 12;
   if (r.top >= th && r.bottom <= innerHeight - bh) return;
   var y = r.height > innerHeight - bh - th ? r.top - th : (r.top < th ? r.top - th : r.bottom - (innerHeight - bh));
-  window.scrollBy({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+  window.scrollBy({ top: y > 0 ? Math.ceil(y) : Math.floor(y), behavior: reduce ? 'auto' : 'smooth' });
 }
 
 /* ------------------------------------------------------------------ Check your car's potential (example figures) */
@@ -605,14 +611,14 @@ var REG = '', onReg = null;
   fill(mk, 'Choose make', uniq(CARS.map(function (c) { return c.make; })));
   fill(md, 'Choose model', []); fill(en, 'Choose engine', []);
   /* before a car is picked the result card shows what it will hold (no figures) */
-  var EMPTY = '<div class="res is-empty"><p class="stage1"><b>Stage 1</b><span>Example figures</span></p><h3>Your car<small>Pick a make, model and engine to see example power and torque.</small></h3>' +
+  var EMPTY = '<div class="res is-empty"><p class="stage1"><b>Stage 1</b><span>SAMPLE · Example figures</span></p><h3>Your car<small>Pick a make, model and engine to see example power and torque.</small></h3>' +
     '<div class="metric"><p class="mh">Power</p><div class="mrow"><span class="tag">Stock</span><span class="bar-t"></span><span class="val">–</span></div><div class="mrow up"><span class="tag">Stage 1</span><span class="bar-t"></span><span class="val">–</span></div></div>' +
     '<div class="metric"><p class="mh">Torque</p><div class="mrow"><span class="tag">Stock</span><span class="bar-t"></span><span class="val">–</span></div><div class="mrow up"><span class="tag">Stage 1</span><span class="bar-t"></span><span class="val">–</span></div></div></div>';
   function clearOut() { out.innerHTML = EMPTY; }
   clearOut();
 
   /* UK registration formats: current (AB12 CDE), prefix (A123 BCD), suffix (ABC 123D), dateless (ABC 123 / 123 ABC) */
-  function norm(s) { return (s || '').toUpperCase().replace(/[^A-Z0-9]/g, ''); }
+  function norm(s) { return (s || '').toUpperCase().replace(/\s/g, ''); }
   function fmtReg(r) {
     var m = r.match(/^([A-Z]{2}[0-9]{2})([A-Z]{3})$/) || r.match(/^([A-Z][0-9]{1,3})([A-Z]{3})$/) || r.match(/^([A-Z]{3})([0-9]{1,3}[A-Z])$/) ||
       r.match(/^([A-Z]{1,3})([0-9]{1,4})$/) || r.match(/^([0-9]{1,4})([A-Z]{1,3})$/);
@@ -626,6 +632,7 @@ var REG = '', onReg = null;
     var f = fmtReg(r);
     if (!f) { say('That does not look like a UK registration. Check it and try again.', true); return; }
     REG = f; inp.value = f; inp.blur();
+    mk.value = ''; fill(md, 'Choose model', []); fill(en, 'Choose engine', []); clearOut();
     say('Pick your car below to see example figures.');
     var have = $('.have', out); if (have) have.innerHTML = '<span>Have your reg ready:</span> <b>' + esc(REG) + '</b>';
     if (onReg) onReg(REG);
@@ -637,7 +644,7 @@ var REG = '', onReg = null;
   });
   inp.addEventListener('input', function () {
     if (msg.classList.contains('err')) say('');
-    if (!inp.value.trim()) {
+    if (REG && norm(inp.value) !== norm(REG)) {
       REG = ''; say('');
       var have = $('.have', out); if (have) have.innerHTML = '<span>Have your reg ready when you call.</span>';
       if (onReg) onReg(REG);
@@ -647,16 +654,25 @@ var REG = '', onReg = null;
   function sel() { return CARS.filter(function (c) { return c.make === mk.value && (!md.value || c.model === md.value) && (!en.value || c.engine === en.value); }); }
   mk.addEventListener('change', function () {
     clearOut();
+    md.value = ''; en.value = '';
     fill(md, 'Choose model', uniq(sel().map(function (c) { return c.model; }))); fill(en, 'Choose engine', []);
     if (!mk.value) md.disabled = true;
     if (md.options.length === 2) { md.selectedIndex = 1; md.dispatchEvent(new Event('change')); }
   });
   md.addEventListener('change', function () {
     clearOut();
+    en.value = '';
     fill(en, 'Choose engine', md.value ? uniq(sel().map(function (c) { return c.engine; })) : []);
     if (en.options.length === 2) { en.selectedIndex = 1; en.dispatchEvent(new Event('change')); }
   });
   en.addEventListener('change', function () { var c = en.value && sel()[0]; if (c) render(c); else clearOut(); });
+
+  $('#reset-car').addEventListener('click', function () {
+    form.reset(); REG = ''; say(''); mk.value = '';
+    fill(md, 'Choose model', []); fill(en, 'Choose engine', []); clearOut();
+    if (onReg) onReg(REG);
+    bringIntoView(form); inp.focus({ preventScroll: true });
+  });
 
   function row(tag, v, unit, max, up) {
     return '<div class="mrow' + (up ? ' up' : '') + '"><span class="tag">' + tag + '</span><span class="bar-t"><i style="--w:' + (v / max).toFixed(3) + '"></i></span>' +
@@ -665,7 +681,7 @@ var REG = '', onReg = null;
   function render(c) {
     var mb = Math.max(c.stage1_bhp, c.stock_bhp) * 1.06, mn = Math.max(c.stage1_nm, c.stock_nm) * 1.06;
     out.innerHTML = '<div class="res pre">' +
-      '<p class="stage1"><b>Stage 1</b><span>Example figures</span></p>' +
+      '<p class="stage1"><b>Stage 1</b><span>SAMPLE · Example figures</span></p>' +
       '<h3>' + esc(c.make + ' ' + c.model) + '<small>' + esc(c.engine + ' · ' + c.fuel + ' · ' + c.years) + '</small></h3>' +
       '<div class="metric"><p class="mh">Power</p>' + row('Stock', c.stock_bhp, 'bhp', mb) + row('Stage 1', c.stage1_bhp, 'bhp', mb, 1) + '</div>' +
       '<div class="metric"><p class="mh">Torque</p>' + row('Stock', c.stock_nm, 'Nm', mn) + row('Stage 1', c.stage1_nm, 'Nm', mn, 1) + '</div>' +
