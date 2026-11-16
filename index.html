@@ -187,9 +187,14 @@ html:not(.js) .plate-form,html:not(.js) .selects{display:none}
 .seg label.on{background:var(--bone);color:var(--teal-deep)}
 .seg label.fv{outline:3px solid var(--mint);outline-offset:2px}
 .field label{display:block;font-size:15px;margin-bottom:6px;color:var(--teal-ink)}
-.field input{display:block;width:100%;max-width:100%;min-width:0;font:700 20px/1 var(--mono);color:var(--ink);background:var(--bone);border:0;border-radius:10px;min-height:56px;padding:0 16px;-webkit-appearance:none;appearance:none;text-align:left}
-.field input::-webkit-date-and-time-value{text-align:left;min-height:1.2em}
-.field input::-webkit-datetime-edit{padding:0}
+.date-control{position:relative}
+.field input{display:block;width:100%;max-width:100%;min-width:0;font:700 20px/28px var(--mono);color:var(--ink);background:var(--bone);border:0;border-radius:10px;height:56px;min-height:56px;padding:14px 16px;-webkit-appearance:none;appearance:none;text-align:left}
+.field input::-webkit-date-and-time-value{text-align:left;height:28px;line-height:28px;margin:0}
+.field input::-webkit-datetime-edit{display:inline-flex;align-items:center;padding:0;height:28px}
+.date-hint{display:none;position:absolute;inset:0 16px;align-items:center;pointer-events:none;font:600 17px/1.4 var(--text);color:var(--bone-ink)}
+.js .date-control.is-empty .date-hint{display:flex}
+.js .date-control.is-empty input{color:transparent;-webkit-text-fill-color:transparent}
+.date-help{font-size:15px;line-height:1.45;color:var(--teal-ink);margin:8px 0 0}
 .ck-note{font-size:15px;color:var(--teal-ink);margin:0;line-height:1.45}
 .ck-out{background:var(--ink);border-radius:16px;padding:22px 20px 20px;display:grid;align-content:start;gap:12px}
 .ck-out .kk{font-size:15px;color:var(--steel);margin:0}
@@ -241,6 +246,9 @@ html:not(.js) .ck-out .due{display:none}
 .lookup-note{font-size:16px;color:var(--bone-ink);margin:0 0 12px;max-width:44ch}
 .reset-car{justify-self:start;min-height:44px;padding:8px 12px;border:2px solid var(--teal);border-radius:8px;background:transparent;color:var(--teal);font:600 16px var(--text);cursor:pointer}
 html:not(.js) .reset-car{display:none}
+
+/* 16 Nov: Martin removed the reg box (a real lookup needs a paid service); the picker stays */
+.plate-form[hidden]{display:none!important}
 
 /* ---------- the story: North Shields' pinned x-ray scene, F1's seven jobs ---------- */
 :root{--bay:#0E1012}
@@ -377,7 +385,7 @@ html:not(.js) .reset-car{display:none}
       <h2 id="pot-h">Check your car’s potential</h2>
       <p class="lede">See example power and torque before and after a Stage 1 remap.</p>
     </div>
-    <form class="plate-form" id="plate-form" action="#pick" novalidate>
+    <form class="plate-form" id="plate-form" action="#pick" novalidate hidden>
       <label class="plate-label mono" for="reg">Enter your registration</label>
       <p class="lookup-note" id="lookup-note">This demo keeps your reg; it does not look your car up. Choose your car below.</p>
       <div class="plate">
@@ -387,13 +395,13 @@ html:not(.js) .reset-car{display:none}
       <p class="reg-msg" id="reg-msg" aria-live="polite"></p>
     </form>
     <div class="pick" id="pick" tabindex="-1">
-      <p class="or mono">or pick your car</p>
+      <p class="or mono">Pick your car</p>
       <div class="selects">
         <label class="sel"><span class="mono">Make</span><select id="mk" disabled><option value="">Choose make</option></select></label>
         <label class="sel"><span class="mono">Model</span><select id="md" disabled><option value="">Choose model</option></select></label>
         <label class="sel"><span class="mono">Engine</span><select id="en" disabled><option value="">Choose engine</option></select></label>
       </div>
-      <button class="reset-car" id="reset-car" type="button">Reset car and registration</button>
+      <button class="reset-car" id="reset-car" type="button">Reset</button>
       <p class="nojs-note">This check needs JavaScript. Call 01905 852342 and we will talk you through your car.</p>
     </div>
     <div class="result" id="result" aria-live="polite"></div>
@@ -475,10 +483,10 @@ html:not(.js) .reset-car{display:none}
     <li><img src="./F1-CAR-REMAPPING.jpg" width="1254" height="836" loading="lazy" decoding="async" alt="Engine software on a workshop laptop"><div><span class="mono no" aria-hidden="true">01</span><h3>Remapping</h3><p>ECU software tailored to your engine.</p></div></li>
     <li><img src="./Car-Servicing-Worcester.jpg" width="1254" height="836" loading="lazy" decoding="async" alt="Mechanic working on an engine"><div><span class="mono no" aria-hidden="true">02</span><h3>Servicing and repairs</h3><p>Routine servicing and mechanical repairs.</p></div></li>
     <li><img src="./F1-CAR-DIAGNOSTICS.jpg" width="1254" height="836" loading="lazy" decoding="async" alt="Vehicle diagnostic equipment"><div><span class="mono no" aria-hidden="true">03</span><h3>Diagnostics</h3><p>Computer checks to help identify faults.</p></div></li>
-    <li><img src="./F1-MOT-TEST.jpg" width="1255" height="835" loading="lazy" decoding="async" alt="Vehicle underside in the workshop"><div><span class="mono no" aria-hidden="true">04</span><h3>MOT tests</h3><p>MOT testing in Worcester.</p></div></li>
+    <li><img src="./F1-MOT-TEST.jpg" width="1536" height="1024" loading="lazy" decoding="async" alt="Hatchback raised on a two-post workshop lift for an MOT inspection"><div><span class="mono no" aria-hidden="true">04</span><h3>MOT tests</h3><p>MOT testing in Worcester.</p></div></li>
     <li><img src="./dpf-filter.jpg" width="1536" height="1024" loading="lazy" decoding="async" alt="Illustration: diesel particulate filter with its ceramic honeycomb core exposed"><div><span class="mono no" aria-hidden="true">05</span><h3>DPF cleaning and repair</h3><p>Diesel particulate filter cleaning and repair.</p></div></li>
-    <li><img src="./tile-gearbox.jpg" width="1500" height="1000" loading="lazy" decoding="async" alt="Gearbox in the workshop"><div><span class="mono no" aria-hidden="true">06</span><h3>Clutches and gearboxes</h3><p>Help with clutch and gearbox problems.</p></div></li>
-    <li><img src="./tile-brakes.jpg" width="1500" height="1000" loading="lazy" decoding="async" alt="Illustration: brake disc"><div><span class="mono no" aria-hidden="true">07</span><h3>Brakes</h3><p>Brake repairs and replacement.</p></div></li>
+    <li><img src="./tile-gearbox.jpg" width="1536" height="1024" loading="lazy" decoding="async" alt="Gloved mechanic working on a gearbox beside a clutch kit on a garage workbench"><div><span class="mono no" aria-hidden="true">06</span><h3>Clutches and gearboxes</h3><p>Help with clutch and gearbox problems.</p></div></li>
+    <li><img src="./tile-brakes.jpg" width="1536" height="1024" loading="lazy" decoding="async" alt="Brake disc and caliper fitted to a car hub with the wheel removed"><div><span class="mono no" aria-hidden="true">07</span><h3>Brakes</h3><p>Brake repairs and replacement.</p></div></li>
     <li><img src="./tile-recovery.jpg" width="1500" height="1000" loading="lazy" decoding="async" alt="Car recovery to the garage"><div><span class="mono no" aria-hidden="true">08</span><h3>Breakdown recovery</h3><p>Local recovery from roadside to workshop.</p></div></li>
   </ul>
   <div class="services-call"><a class="call-button" href="tel:+441905852342">Call 01905 852342 to Book</a></div>
@@ -490,7 +498,7 @@ html:not(.js) .reset-car{display:none}
     <div class="ck-head">
       <p class="k mono">A quick sum for your diary</p>
       <h2 id="checker-title">MOT due? Check the date.</h2>
-      <p class="lede">Put in the date from your MOT certificate. It is worked out on your phone; nothing is sent anywhere.</p>
+      <p class="lede">Use your MOT expiry date or, for a new car, its registration date. It is worked out on your phone; nothing is sent anywhere.</p>
     </div>
     <form class="ck-form" action="#mot-date" novalidate>
       <fieldset class="seg">
@@ -500,7 +508,11 @@ html:not(.js) .reset-car{display:none}
       </fieldset>
       <div class="field">
         <label class="mono" for="mot-input" id="mot-input-label">Expiry date on the certificate</label>
-        <input id="mot-input" type="date" autocomplete="off" min="1990-01-01">
+        <div class="date-control is-empty">
+          <input id="mot-input" type="date" autocomplete="off" min="1990-01-01" aria-describedby="mot-input-hint">
+          <span class="date-hint" aria-hidden="true">Tap to choose a date</span>
+        </div>
+        <p class="date-help" id="mot-input-hint">Choose the expiry date on your certificate. Switching options clears the date.</p>
       </div>
       <p class="ck-note mono">From gov.uk: you can get an MOT up to a month (minus a day) before it runs out and keep the same renewal date. A new car needs its first MOT by the third anniversary of its registration.</p>
     </form>
@@ -614,7 +626,11 @@ var REG = '', onReg = null;
   var EMPTY = '<div class="res is-empty"><p class="stage1"><b>Stage 1</b><span>SAMPLE · Example figures</span></p><h3>Your car<small>Pick a make, model and engine to see example power and torque.</small></h3>' +
     '<div class="metric"><p class="mh">Power</p><div class="mrow"><span class="tag">Stock</span><span class="bar-t"></span><span class="val">–</span></div><div class="mrow up"><span class="tag">Stage 1</span><span class="bar-t"></span><span class="val">–</span></div></div>' +
     '<div class="metric"><p class="mh">Torque</p><div class="mrow"><span class="tag">Stock</span><span class="bar-t"></span><span class="val">–</span></div><div class="mrow up"><span class="tag">Stage 1</span><span class="bar-t"></span><span class="val">–</span></div></div></div>';
-  function clearOut() { out.innerHTML = EMPTY; }
+  function clearOut() {
+    out.innerHTML = EMPTY;
+    var next = !mk.value ? 'Pick a make, model and engine to see example power and torque.' : !md.value ? 'Choose a model for ' + mk.value + ', then an engine.' : 'Choose an engine for ' + mk.value + ' ' + md.value + ' above to see example figures.';
+    $('h3 small', out).textContent = next;
+  }
   clearOut();
 
   /* UK registration formats: current (AB12 CDE), prefix (A123 BCD), suffix (ABC 123D), dateless (ABC 123 / 123 ABC) */
@@ -653,16 +669,16 @@ var REG = '', onReg = null;
 
   function sel() { return CARS.filter(function (c) { return c.make === mk.value && (!md.value || c.model === md.value) && (!en.value || c.engine === en.value); }); }
   mk.addEventListener('change', function () {
-    clearOut();
     md.value = ''; en.value = '';
     fill(md, 'Choose model', uniq(sel().map(function (c) { return c.model; }))); fill(en, 'Choose engine', []);
     if (!mk.value) md.disabled = true;
+    clearOut();
     if (md.options.length === 2) { md.selectedIndex = 1; md.dispatchEvent(new Event('change')); }
   });
   md.addEventListener('change', function () {
-    clearOut();
     en.value = '';
     fill(en, 'Choose engine', md.value ? uniq(sel().map(function (c) { return c.engine; })) : []);
+    clearOut();
     if (en.options.length === 2) { en.selectedIndex = 1; en.dispatchEvent(new Event('change')); }
   });
   en.addEventListener('change', function () { var c = en.value && sel()[0]; if (c) render(c); else clearOut(); });
@@ -671,7 +687,7 @@ var REG = '', onReg = null;
     form.reset(); REG = ''; say(''); mk.value = '';
     fill(md, 'Choose model', []); fill(en, 'Choose engine', []); clearOut();
     if (onReg) onReg(REG);
-    bringIntoView(form); inp.focus({ preventScroll: true });
+    bringIntoView(pick); mk.focus({ preventScroll: true });
   });
 
   function row(tag, v, unit, max, up) {
@@ -698,7 +714,7 @@ var REG = '', onReg = null;
 
 /* ------------------------------------------------------------------ MOT due helper (gov.uk rules, as on North Shields) */
 (function () {
-  var form = $('.ck-form'), out = $('.ck-out'), input = $('#mot-input'), inputLabel = $('#mot-input-label');
+  var form = $('.ck-form'), out = $('.ck-out'), input = $('#mot-input'), inputLabel = $('#mot-input-label'), inputHint = $('#mot-input-hint');
   if (!form || !out || !input) return;
   var segs = $$('.seg label', form);
   function segState() { segs.forEach(function (l) { var i = $('input', l); l.classList.toggle('on', i.checked); }); }
@@ -718,23 +734,35 @@ var REG = '', onReg = null;
     var n = new Date(); return new Date(n.getFullYear(), n.getMonth(), n.getDate());
   }
   function mode() { var m = form.querySelector('input[name=mode]:checked'); return m ? m.value : 'cert'; }
-  var empty = out.innerHTML;
+  var empty = out.innerHTML, rendered = '';
   function dayDiff(a, b) { return Math.round((Date.UTC(a.getFullYear(), a.getMonth(), a.getDate()) - Date.UTC(b.getFullYear(), b.getMonth(), b.getDate())) / 86400000); }
   function monthsRow(due, t0, early) {
-    var start = addMonths(due, -12), gone = Math.max(0, Math.min(12, Math.floor(dayDiff(t0, start) / 30.44))), cells = '';
-    for (var i = 0; i < 12; i++) cells += '<i class="' + (i === 11 ? 'window' : i < gone ? 'done' : '') + '"></i>';
-    return '<div class="months" role="img" aria-label="' + gone + ' of 12 months of this MOT year gone">' + cells + '</div>' +
-      '<p class="months-key mono">Your MOT year, one square a month: ' + gone + ' gone. The last square is when you can have it done, from ' + fmt(early) + '.</p>';
+    var gone = 0, cells = '', year = mode() === 'new' ? 'The final year before your first MOT' : 'The year before your MOT expiry';
+    for (var i = 1; i <= 12; i++) if (addMonths(due, i - 12) <= t0) gone++;
+    for (var j = 0; j < 12; j++) cells += '<i class="' + (j < gone ? 'done ' : '') + (j === 11 ? 'window' : '') + '"></i>';
+    return '<div class="months" role="img" aria-label="' + year + ': ' + gone + ' of 12 calendar months complete; mint marks the booking window">' + cells + '</div>' +
+      '<p class="months-key mono">' + year + ', one square a calendar month: ' + gone + ' complete. The mint square marks the booking window, from ' + fmt(early) + '.</p>';
   }
-  function render(reveal) {
+  function render() {
     inputLabel.textContent = mode() === 'new' ? 'Date the car was first registered (V5C logbook)' : 'Expiry date on the certificate';
+    inputHint.textContent = (mode() === 'new' ? 'Choose the registration date on your V5C logbook.' : 'Choose the expiry date on your certificate.') + ' Switching options clears the date.';
     if (mode() === 'new') input.max = iso(today()); else input.removeAttribute('max');
-    var value = input.value;
-    if (!value) { out.classList.remove('is-late'); out.innerHTML = empty; return; }
+    var value = input.value, key = mode() + ':' + value + ':' + input.validity.badInput + ':' + iso(today());
+    if (key === rendered) return;
+    rendered = key;
+    input.parentNode.classList.toggle('is-empty', !value && !input.validity.badInput);
+    input.removeAttribute('aria-invalid');
+    out.classList.remove('is-late');
+    if (!value && !input.validity.badInput) { out.innerHTML = empty; return; }
     var p = value.split('-').map(Number), base = new Date(p[0], p[1] - 1, p[2]);
-    if (isNaN(base.getTime()) || p[0] < 1990) return;
+    var future = mode() === 'new' && value > iso(today());
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(value) || isNaN(base.getTime()) || iso(base) !== value || value < input.min || future || !input.validity.valid) {
+      input.setAttribute('aria-invalid', 'true');
+      out.classList.add('is-late');
+      out.innerHTML = future ? '<p class="kk mono">That date is in the future</p><p class="left">Put in the date the car was first registered. It is on the V5C logbook.</p>' : '<p class="kk mono">Check the date</p><p class="left">Choose a complete date from 1990 onwards.</p>';
+      return;
+    }
     var t0 = today(), html;
-    if (mode() === 'new' && base > t0) { out.classList.add('is-late'); out.innerHTML = '<p class="kk mono">That date is in the future</p><p class="left">Put in the date the car was first registered. It is on the V5C logbook.</p>'; return; }
     var due = mode() === 'new' ? addMonths(base, 36) : base, days = dayDiff(due, t0);
     var early = addMonths(due, -1); early.setDate(early.getDate() + 1);   /* gov.uk: up to a month (minus a day) before it runs out */
     var open = early <= t0;
@@ -749,24 +777,29 @@ var REG = '', onReg = null;
       html = '<p class="kk mono">MOT due by</p><p class="due">' + fmt(due) + '</p><p class="left"><b>' + (days === 0 ? 'Today' : days + ' day' + (days === 1 ? '' : 's') + ' to go') + '.</b> ' +
         (open ? 'You can have it done now and keep the same renewal date (the window opened on ' + fmt(early) + ').' : 'You can have it done from ' + fmt(early) + ' and keep the same renewal date.') + '</p>' +
         monthsRow(due, t0, early) +
-        '<div class="remind"><span>For your calendar:</span><span class="sel mono" tabindex="0">MOT due by ' + fmt(due) + '. Can be done from ' + fmt(early) + '. F1 Repairs Centre, 01905 852342.</span><button type="button" class="copy">Copy</button></div>';
+        '<div class="remind"><span>For your calendar:</span><span class="sel mono" tabindex="0">' + (mode() === 'new' ? 'First MOT' : 'MOT') + ' due by ' + fmt(due) + '. ' + (mode() === 'new' ? 'Booking window from ' : 'To keep the renewal date, test from ') + fmt(early) + ' to ' + fmt(due) + '. F1 Repairs Centre, 01905 852342.</span><button type="button" class="copy">Copy</button><span class="copy-status" role="status"></span></div>';
     }
     out.innerHTML = html;
     var copy = $('.copy', out), s = $('.sel', out);
     if (copy && s) copy.addEventListener('click', function () {
-      var done = function () { copy.textContent = 'Copied'; setTimeout(function () { copy.textContent = 'Copy'; }, 1600); };
-      var pickTxt = function () { var r = doc.createRange(); r.selectNodeContents(s); var w = getSelection(); w.removeAllRanges(); w.addRange(r); copy.textContent = 'Selected: press copy'; };
+      var done = function () { if (!out.contains(copy)) return; copy.textContent = 'Copied'; $('.copy-status', out).textContent = ''; setTimeout(function () { copy.textContent = 'Copy'; }, 1600); };
+      var pickTxt = function () {
+        if (!out.contains(copy)) return;
+        s.focus({ preventScroll: true });
+        var r = doc.createRange(); r.selectNodeContents(s); var w = getSelection(); w.removeAllRanges(); w.addRange(r);
+        try { if (doc.execCommand('copy')) { done(); return; } } catch (e) {}
+        copy.textContent = 'Text selected';
+        $('.copy-status', out).textContent = 'Touch and hold the selected text, then choose Copy.';
+      };
       if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(s.textContent).then(done, pickTxt); else pickTxt();
     });
-    if (reveal) bringIntoView(out);
   }
-  /* bring the answer into view once per new date (WebKit fires a second 'change' on blur; scrolling then moved the page under the next tap) */
-  var revealed = '';
-  input.addEventListener('change', function () { var fresh = input.value && input.value !== revealed; revealed = input.value; render(fresh); });
-  input.addEventListener('input', function () { render(false); });
-  form.addEventListener('change', function (e) { if (e.target.name === 'mode') { segState(); input.value = ''; revealed = ''; render(false); } });
+  /* Keep the field still while the native iOS picker is open. */
+  input.addEventListener('change', function () { render(); });
+  input.addEventListener('input', function () { render(); });
+  form.addEventListener('change', function (e) { if (e.target.name === 'mode') { segState(); input.value = ''; render(); } });
   form.addEventListener('submit', function (e) { e.preventDefault(); });
-  render(false);
+  render();
 })();
 
 /* ------------------------------------------------------------------ can we run the x-ray workshop? */
