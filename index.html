@@ -201,6 +201,35 @@ a:active,button:active{transform:scale(.97)}
 }
 @media(max-height:640px){.is-live .beat h2{font-size:clamp(2rem,9vw,3rem)}.is-live .what{font-size:16px}.is-live .note{display:none}}
 @media(max-height:500px) and (min-width:560px){.is-live .beat{padding:calc(var(--top-h) + 36px) 50% calc(var(--bar-h) + 12px) var(--gut)}.is-live .beat h2{font-size:2rem}.is-live .cue{display:none}.is-live .signp{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}.signp h2{font-size:2rem}.signp .fine{display:none}}
+
+.service-more{display:flex;align-items:center;min-height:48px;width:fit-content;font-size:16px;font-weight:500}
+.footer-links{display:flex;flex-wrap:wrap;gap:0 24px;font-size:15px}
+.footer-links a{display:inline-flex;align-items:center;min-height:44px;max-width:100%}
+.page-main{padding:calc(var(--top-h) + 24px) var(--gut) 48px;max-width:1200px;margin:auto}
+.breadcrumb{display:flex;flex-wrap:wrap;align-items:center;gap:0 12px;font-size:15px;color:var(--steel);margin-bottom:24px}
+.breadcrumb a{display:inline-flex;align-items:center;min-height:44px}
+.page-lead{padding-bottom:32px;border-bottom:1px solid var(--line)}
+.page-lead .service-icon{margin-bottom:16px}
+.page-lead h1{font:750 clamp(2.25rem,8vw,4.5rem)/1.06 var(--cond);font-stretch:80%;max-width:22ch;text-wrap:balance}
+.page-lead p{margin-top:20px;max-width:64ch;font-size:19px;line-height:1.6}
+.page-lead .call-button{margin-top:24px}
+.page-copy{max-width:72ch}
+.page-copy section{margin-top:40px}
+.page-copy h2,.related h2{font:650 clamp(1.6rem,4vw,2rem)/1.2 var(--cond);font-stretch:90%;margin-bottom:16px}
+.page-copy p+p{margin-top:16px}
+.page-copy p,.page-copy li{line-height:1.65}
+.page-copy ul{padding-left:24px;margin:16px 0}
+.page-copy li+li{margin-top:8px}
+.page-copy .faq-item{padding:20px 0}
+.page-copy .faq-item h3{font:600 19px/1.4 var(--text)}
+.page-copy .faq-item p{margin-top:8px;color:var(--steel)}
+.page-address{font-style:normal;line-height:1.65}
+.page-copy a{display:inline-flex;align-items:center;min-height:44px}
+.related{margin-top:40px;padding-top:32px;border-top:1px solid var(--line)}
+.related ul{list-style:none;padding:0;margin:0}
+.related a{display:inline-flex;align-items:center;min-height:48px}
+@media(min-width:900px){.page-main{padding-top:calc(var(--top-h) + 40px);padding-bottom:64px}.page-copy{margin-left:16%}}
+@media(max-width:899px){.page-lead .primary-call{background:var(--raised);border-color:var(--line);color:var(--bone)}}
 </style>
 <link rel="canonical" href="https://f1recoveryandrepairs.co.uk/">
 <meta property="og:type" content="website"><meta property="og:url" content="https://f1recoveryandrepairs.co.uk/">
@@ -240,7 +269,7 @@ a:active,button:active{transform:scale(.97)}
 
 <section class="services" id="services" tabindex="-1" aria-labelledby="services-title">
   <div class="services-head"><h2 id="services-title">What we fix</h2></div>
-  <ul class="service-tiles"><li id="ecu-remapping" data-service="ECU remapping"><svg class="service-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 17 46 18 47 45 18 46Z M25 25 39 24 40 38 25 39Z M26 10v7m12-7v7m-12 29v7m12-7v7M10 26h8m-8 12h8m29-12h7m-7 12h7"/></svg><div><h3>ECU remapping</h3><p>Engine software tailored to your vehicle.</p><a class="service-call" href="tel:+441905905830" aria-label="Call 01905 905830 about ECU remapping">Call about a remap</a></div></li><li id="clutches-gearboxes" data-service="Gearbox and clutch repairs"><svg class="service-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m10 25 10-8 20 1 7 9 7 1v14l-8 1-6 7-21-1-9-8Z M20 18v30m20-29v30M26 27h8v13h-8Z M5 31h5m-5 7h5m44-6h5m-5 6h5"/></svg><div><h3>Gearbox and clutch</h3><p>Help with difficult gear changes and clutch problems.</p><a class="service-call" href="tel:+441905905830" aria-label="Call 01905 905830 about gearbox and clutch repairs">Call about a repair</a></div></li><li id="diagnostics" data-service="Car diagnostics"><svg class="service-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 13 31 1 1 34-32 1Z M19 21h19v14H19Z M20 41h3m7 0h7M45 29h6l4 5v14m-4 0h8v7h-8Z M22 28h4l3-4 4 7 3-3h2"/></svg><div><h3>Diagnostics and DPF</h3><p>Fault finding, <span id="dpf-cleaning" data-service="DPF cleaning and repair">DPF cleaning and repair</span>.</p><a class="service-call" href="tel:+441905905830" aria-label="Call 01905 905830 about diagnostics and DPF">Call about a fault</a></div></li></ul>
+  <ul class="service-tiles"><li id="ecu-remapping" data-service="ECU remapping"><svg class="service-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 17 46 18 47 45 18 46Z M25 25 39 24 40 38 25 39Z M26 10v7m12-7v7m-12 29v7m12-7v7M10 26h8m-8 12h8m29-12h7m-7 12h7"/></svg><div><h3>ECU remapping</h3><p>Engine software tailored to your vehicle.</p><a class="service-call" href="tel:+441905905830" aria-label="Call 01905 905830 about ECU remapping">Call about a remap</a><a class="service-more" href="/ecu-remapping-worcester/">More about ECU remapping</a></div></li><li id="clutches-gearboxes" data-service="Gearbox and clutch repairs"><svg class="service-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m10 25 10-8 20 1 7 9 7 1v14l-8 1-6 7-21-1-9-8Z M20 18v30m20-29v30M26 27h8v13h-8Z M5 31h5m-5 7h5m44-6h5m-5 6h5"/></svg><div><h3>Gearbox and clutch</h3><p>Help with difficult gear changes and clutch problems.</p><a class="service-call" href="tel:+441905905830" aria-label="Call 01905 905830 about gearbox and clutch repairs">Call about a repair</a><a class="service-more" href="/gearbox-clutch-repairs-worcester/">More about Gearbox and clutch repairs</a></div></li><li id="diagnostics" data-service="Car diagnostics"><svg class="service-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m13 13 31 1 1 34-32 1Z M19 21h19v14H19Z M20 41h3m7 0h7M45 29h6l4 5v14m-4 0h8v7h-8Z M22 28h4l3-4 4 7 3-3h2"/></svg><div><h3>Diagnostics and DPF</h3><p>Fault finding, <span id="dpf-cleaning" data-service="DPF cleaning and repair">DPF cleaning and repair</span>.</p><a class="service-call" href="tel:+441905905830" aria-label="Call 01905 905830 about diagnostics and DPF">Call about a fault</a><a class="service-more" href="/dpf-cleaning-worcester/">More about DPF cleaning and repair</a></div></li></ul>
   <div class="other-services"><h3>We also help with</h3><ul>
     <li id="servicing" data-service="Car servicing and repairs">Servicing</li>
     <li id="brakes" data-service="Brake repairs and replacement">Brakes</li>
@@ -360,6 +389,7 @@ a:active,button:active{transform:scale(.97)}
   <div class="legal">
     <p><b>F1 Recovery and Repairs Centre</b>, Unit 9A, Millpool Farm Industrial Estate, Main Road, Hallow, Worcester WR2 6LS. <span class="nowrap">01905 905830</span>.</p>
     <p>3D illustration: see-through car.</p>
+    <nav class="footer-links" aria-label="More information"><a href="/ecu-remapping-worcester/">ECU remapping</a><a href="/gearbox-clutch-repairs-worcester/">Gearbox and clutch repairs</a><a href="/dpf-cleaning-worcester/">DPF cleaning and repair</a><a href="/privacy/">Privacy</a></nav>
   </div>
 </footer>
 
